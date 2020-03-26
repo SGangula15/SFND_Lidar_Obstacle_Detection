@@ -56,10 +56,6 @@ render/box.h
 Eigen/Geometry
 -
 
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/render/render.cpp
-render.h
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/render/render.h
-
 /Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/render/render.h
 pcl/visualization/pcl_visualizer.h
 -
