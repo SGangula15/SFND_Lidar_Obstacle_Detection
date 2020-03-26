@@ -55,17 +55,16 @@ http://www.pointclouds.org/downloads/windows.html
 6. test PCL
 	```bash
 	$> brew test pcl
-
-
+	```
 7. Install package confi -Manage compile and link flags for libraries
 	```bash
 	$> brew install pkg-config
-	
+	```
 8. Install CMAKE
 	```bash
 	$> brew install CMAKE
-
-
+	```
+	
 #### Prebuilt Binaries via Universal Installer
 http://www.pointclouds.org/downloads/macosx.html  
 NOTE: very old version 
