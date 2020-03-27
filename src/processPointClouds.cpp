@@ -94,7 +94,7 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
 
     return segResult;
 }
-
+// My Implementaion :
 template<typename PointT>
 std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> 
 ProcessPointClouds<PointT>::RansacPlane(typename pcl::PointCloud<PointT>::Ptr cloud, int maxIterations, float distanceTol)
@@ -111,35 +111,42 @@ ProcessPointClouds<PointT>::RansacPlane(typename pcl::PointCloud<PointT>::Ptr cl
     {
         // Randomly sample subset and fit line
         std::unordered_set<int> inliers;
-        while(inliers.size() < 3 ) // 3, because of 3D plane 
-            inliers.insert(rand()%(cloud->points.size())); // randomly selecting between 0 and size of cloud
+        for (int index = 0; index < 3; index++) // 3, because of 3D plane 
+        { 
+            inliers.insert(rand() % cloud->points.size()); // randomly selecting between 0 and size of cloud
+        }
 
-        float x1, y1, z1, x2, y2, z2, x3, y3, z3;  //3D points
         auto itr = inliers.begin();
-        x1 = cloud->points[*itr].x;
-        y1 = cloud->points[*itr].y;
-		z1 = cloud->points[*itr].z;
+        const float x1 = cloud->points[*itr].x;
+        const float y1 = cloud->points[*itr].y;
+		const float z1 = cloud->points[*itr].z;
         itr++;
-        x2 = cloud->points[*itr].x;
-        y2 = cloud->points[*itr].y;
-		z2 = cloud->points[*itr].z;
+        const float x2 = cloud->points[*itr].x;
+        const float y2 = cloud->points[*itr].y;
+		const float z2 = cloud->points[*itr].z;
 		itr++;
-		x3 = cloud->points[*itr].x;
-		y3 = cloud->points[*itr].y;
-		z3 = cloud->points[*itr].z;
+		const float x3 = cloud->points[*itr].x;
+		const float y3 = cloud->points[*itr].y;
+		const float z3 = cloud->points[*itr].z;
 
-        /* Equation of a line through two point in 3D is
-         *  Ax+By+Cz+D = 0 (3D Line equation)
-         *  Given two points: point1 (x1, y1, z1), point2 (x2, y2, z2), and  point3 (x3, y3, z3)
-         *  Use point1 as a reference and define two vectors on the plane v1 and v2: take cross product as shown in below link
-         *  https://www.analyzemath.com/stepbystep_mathworksheets/vectors/cross_product.html
-		 *  cross product = <i, j, k>
-		 *  Coefficents of 3D Line equation will be: 
-		 *  A = i, B = j, C = k, D = -(i*x1+j*y1+k*z1)
-         * */
-		float i = (((y2-y1)*(z3-z1)) -((z2-z1)-(y3-y1)));        
-		float j = (((z2-z1)*(x3-x1)) -((x2-x1)-(z3-z1)));
-		float k = (((x2-x1)*(y3-y1)) -((y2-y1)-(x3-x1)));
+         // Equation of a line through two point in 3D is
+         //  Ax+By+Cz+D = 0 (3D Line equation)
+         //  Given two points: point1 (x1, y1, z1), point2 (x2, y2, z2), and  point3 (x3, y3, z3)
+         //  Use point1 as a reference and define two vectors on the plane v1 and v2: take cross product as shown in below link
+         //  https://www.analyzemath.com/stepbystep_mathworksheets/vectors/cross_product.html
+		 //  cross product = <i, j, k>
+		 //  Coefficents of 3D Line equation will be: 
+		 //  A = i, B = j, C = k, D = -(i*x1+j*y1+k*z1)
+         
+		const float i = static_cast<float>(((y2-y1)*(z3-z1)) -((z2-z1)*(y3-y1)));        
+		const float j = static_cast<float>(((z2-z1)*(x3-x1)) -((x2-x1)*(z3-z1)));
+		const float k = static_cast<float>(((x2-x1)*(y3-y1)) -((y2-y1)*(x3-x1)));
+
+        const float A{i}, B{j}, C{k};
+        const float D{ static_cast<float>(-((i * x1) + (j * y1) + (k * z1))) };
+
+        // Euclidean Distance is sqrt(A^2+B^2+C^2)
+        const float euclideanDistance{ std::sqrt((A * A) + (B * B) + (C * C)) };
 
         // Measure distance between every point and fitted line
         for(int index = 0; index < cloud->points.size(); index++)
@@ -148,16 +155,13 @@ ProcessPointClouds<PointT>::RansacPlane(typename pcl::PointCloud<PointT>::Ptr cl
             if(inliers.count(index)>0)
                 continue;
 
-            pcl::PointXYZ point = cloud->points[index];
-            float x3 = point.x;
-            float y3 = point.y;
-			float z3 = point.z;
-
-            /* equation for calculating distance between a point and line is
-             * Distance d = abs(3D line equation)/sqrt(A^2+B^2+C^2)
-             * */
-            float abs3DLineEquation = fabs(i*x3+j*y3+k*z3-(i*x1+j*y1+k*z1)); //absolute of 3D line equation
-            float d = abs3DLineEquation/sqrt(i*i+j*j+k*k);
+            //absolute of 3D line equation
+            const float planeEquation{ std::fabs((A * cloud->points.at(index).x) + (B * cloud->points.at(index).y) +
+                                         (C * cloud->points.at(index).z) + D) }; 
+            
+            // equation for calculating distance between a point and line is
+            // Distance d = abs(3D line equation)/euclideanDistance
+            float d = planeEquation/euclideanDistance;
 
             // If distance is smaller than threshold count it as inlier
             if(d <= distanceTol)
@@ -174,19 +178,19 @@ ProcessPointClouds<PointT>::RansacPlane(typename pcl::PointCloud<PointT>::Ptr cl
 
     //std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> segResult = SeparateClouds(inliersData,cloud);
 
-    /* Using ransac2d.cpp main() logic for coversion of std::unordered_set<int> inliers to 
-    *  two point cloud objects
-    */
-    typename pcl::PointCloud<PointT>::Ptr obstCloud(new pcl::PointCloud<PointT>());   //Cloud Inliers
-	typename pcl::PointCloud<PointT>::Ptr planeCloud(new pcl::PointCloud<PointT>());  //Cloud Outliers
+    // Using ransac2d.cpp main() logic for coversion of std::unordered_set<int> inliers to 
+    //  two point cloud objects
+    //
+    typename pcl::PointCloud<PointT>::Ptr planeCloud(new pcl::PointCloud<PointT>());   //Cloud Inliers
+	typename pcl::PointCloud<PointT>::Ptr obstacleCloud(new pcl::PointCloud<PointT>());  //Cloud Outliers
 
-	while(!inliersResult.empty())
+	if(!inliersResult.empty())
     {
         for(int index = 0; index < cloud->points.size(); index++)
 	    {
-		PointT point = cloud->points[index];
+		PointT point = cloud->points.at(index);
 		if(inliersResult.count(index))
-			obstCloud->points.push_back(point);
+			obstacleCloud->points.push_back(point);
 		else
 			planeCloud->points.push_back(point);
 	    }
@@ -197,10 +201,8 @@ ProcessPointClouds<PointT>::RansacPlane(typename pcl::PointCloud<PointT>::Ptr cl
     std::cout << "Ransac plane segmentation took " << elapsedTime.count() << " milliseconds" << std::endl;
 
     return std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr>(
-        obstCloud, planeCloud);
-
+         obstacleCloud, planeCloud);
 }
-
 
 template<typename PointT>
 std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::Clustering(typename pcl::PointCloud<PointT>::Ptr cloud, float clusterTolerance, int minSize, int maxSize)
