@@ -140,8 +140,8 @@ std::unordered_set<int> RansacPlane(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, i
     while(maxIterations--)
     {
         // Randomly sample subset and fit line
-        std::unordered_set<int> inliers;
-        while(inliers.size() < 3 ) // 3, because of 3D plane 
+        std::unordered_set<int> inliers;            
+        for (int index = 0; index < 3; index++) // 3, because of 3D plane 
             inliers.insert(rand()%(cloud->points.size())); // randomly selecting between 0 and size of cloud
 
         float x1, y1, z1, x2, y2, z2, x3, y3, z3;  //3D points
@@ -167,9 +167,10 @@ std::unordered_set<int> RansacPlane(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, i
 		 *  Coefficents of 3D Line equation will be: 
 		 *  A = i, B = j, C = k, D = -(i*x1+j*y1+k*z1)
          * */
-		float i = (((y2-y1)*(z3-z1)) -((z2-z1)-(y3-y1)));        
-		float j = (((z2-z1)*(x3-x1)) -((x2-x1)-(z3-z1)));
-		float k = (((x2-x1)*(y3-y1)) -((y2-y1)-(x3-x1)));
+		float i = (((y2-y1)*(z3-z1)) -((z2-z1)*(y3-y1)));        
+		float j = (((z2-z1)*(x3-x1)) -((x2-x1)*(z3-z1)));
+		float k = (((x2-x1)*(y3-y1)) -((y2-y1)*(x3-x1)));
+        float euclideanDist = sqrtf(i*i+j*j+k*k);
 
         // Measure distance between every point and fitted line
         for(int index = 0; index < cloud->points.size(); index++)
@@ -187,7 +188,7 @@ std::unordered_set<int> RansacPlane(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, i
              * Distance d = abs(3D line equation)/sqrt(A^2+B^2+C^2)
              * */
             float abs3DLineEquation = fabs(i*x3+j*y3+k*z3-(i*x1+j*y1+k*z1)); //absolute of 3D line equation
-            float d = abs3DLineEquation/sqrt(i*i+j*j+k*k);
+            float d = abs3DLineEquation/euclideanDist;
 
             // If distance is smaller than threshold count it as inlier
             if(d <= distanceTol)

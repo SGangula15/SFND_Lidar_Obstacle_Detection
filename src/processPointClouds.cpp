@@ -146,7 +146,7 @@ ProcessPointClouds<PointT>::RansacPlane(typename pcl::PointCloud<PointT>::Ptr cl
         const float D{ static_cast<float>(-((i * x1) + (j * y1) + (k * z1))) };
 
         // Euclidean Distance is sqrt(A^2+B^2+C^2)
-        const float euclideanDistance{ std::sqrt((A * A) + (B * B) + (C * C)) };
+        const float euclideanDistance{ sqrtf((A * A) + (B * B) + (C * C)) };
 
         // Measure distance between every point and fitted line
         for(int index = 0; index < cloud->points.size(); index++)
@@ -190,9 +190,9 @@ ProcessPointClouds<PointT>::RansacPlane(typename pcl::PointCloud<PointT>::Ptr cl
 	    {
 		PointT point = cloud->points.at(index);
 		if(inliersResult.count(index))
-			obstacleCloud->points.push_back(point);
-		else
 			planeCloud->points.push_back(point);
+		else
+			obstacleCloud->points.push_back(point);
 	    }
     }
 
