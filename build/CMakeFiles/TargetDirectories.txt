@@ -1,3 +1,3 @@
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/build/CMakeFiles/rebuild_cache.dir
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/build/CMakeFiles/edit_cache.dir
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/build/CMakeFiles/environment.dir
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/build/CMakeFiles/rebuild_cache.dir
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/build/CMakeFiles/edit_cache.dir
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/build/CMakeFiles/environment.dir

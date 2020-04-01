@@ -248,8 +248,11 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
     }
 
     auto endTime = std::chrono::steady_clock::now();
+    //std::cout << "start time is " << startTime.count() <<endl;
+    //std::cout << "end time is " << endTime.count() <<endl;
     auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-    std::cout << "clustering took " << elapsedTime.count() << " milliseconds and found " << clusters.size() << " clusters" << std::endl;
+    std::chrono::duration<long, std::micro> elapsedTimeMicro = elapsedTime;
+    std::cout << "clustering took " << elapsedTimeMicro.count() << " milliseconds and found " << clusters.size() << " clusters" << std::endl;
 
     return clusters;
 }

@@ -6,21 +6,21 @@
 
 #IncludeRegexTransform: 
 
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/environment.cpp
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/environment.cpp
 sensors/lidar.h
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/sensors/lidar.h
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/sensors/lidar.h
 render/render.h
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/render/render.h
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.h
 processPointClouds.h
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/processPointClouds.h
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/processPointClouds.h
 processPointClouds.cpp
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/processPointClouds.cpp
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/processPointClouds.cpp
 
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/processPointClouds.cpp
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/processPointClouds.cpp
 processPointClouds.h
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/processPointClouds.h
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/processPointClouds.h
 
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/processPointClouds.h
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/processPointClouds.h
 pcl/io/pcd_io.h
 -
 pcl/common/common.h
@@ -52,17 +52,17 @@ chrono
 unordered_set
 -
 render/box.h
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/render/box.h
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/box.h
 
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/render/box.h
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/box.h
 Eigen/Geometry
 -
 
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/render/render.h
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.h
 pcl/visualization/pcl_visualizer.h
 -
 box.h
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/render/box.h
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/box.h
 iostream
 -
 vector
@@ -70,9 +70,9 @@ vector
 string
 -
 
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/sensors/lidar.h
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/sensors/lidar.h
 ../render/render.h
-/Users/srikanthgangula/Documents/Github/SFND_Lidar_Obstacle_Detection/src/render/render.h
+/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.h
 ctime
 -
 chrono

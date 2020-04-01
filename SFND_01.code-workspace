@@ -89,7 +89,12 @@
 			"variant": "cpp",
 			"memory_resource": "cpp",
 			"cfenv": "cpp",
-			"cinttypes": "cpp"
+			"cinttypes": "cpp",
+			"*.ipp": "cpp",
+			"nonlinearoptimization": "cpp",
+			"polynomials": "cpp",
+			"future": "cpp",
+			"*.txx": "cpp"
 		}
 	}
 }

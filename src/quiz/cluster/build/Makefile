@@ -65,10 +65,10 @@ RM = /usr/local/Cellar/cmake/3.17.0_1/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection
+CMAKE_SOURCE_DIR = /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/quiz/cluster
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/build
+CMAKE_BINARY_DIR = /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -97,9 +97,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/build/CMakeFiles /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/build/CMakeFiles /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -128,98 +128,71 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named environment
+# Target rules for targets named quizCluster
 
 # Build rule for target.
-environment: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 environment
-.PHONY : environment
+quizCluster: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 quizCluster
+.PHONY : quizCluster
 
 # fast build rule for target.
-environment/fast:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/build
-.PHONY : environment/fast
+quizCluster/fast:
+	$(MAKE) -f CMakeFiles/quizCluster.dir/build.make CMakeFiles/quizCluster.dir/build
+.PHONY : quizCluster/fast
 
-src/environment.o: src/environment.cpp.o
+Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.o: Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.cpp.o
 
-.PHONY : src/environment.o
-
-# target to build an object file
-src/environment.cpp.o:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/environment.cpp.o
-.PHONY : src/environment.cpp.o
-
-src/environment.i: src/environment.cpp.i
-
-.PHONY : src/environment.i
-
-# target to preprocess a source file
-src/environment.cpp.i:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/environment.cpp.i
-.PHONY : src/environment.cpp.i
-
-src/environment.s: src/environment.cpp.s
-
-.PHONY : src/environment.s
-
-# target to generate assembly for a file
-src/environment.cpp.s:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/environment.cpp.s
-.PHONY : src/environment.cpp.s
-
-src/processPointClouds.o: src/processPointClouds.cpp.o
-
-.PHONY : src/processPointClouds.o
+.PHONY : Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.o
 
 # target to build an object file
-src/processPointClouds.cpp.o:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/processPointClouds.cpp.o
-.PHONY : src/processPointClouds.cpp.o
+Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.cpp.o:
+	$(MAKE) -f CMakeFiles/quizCluster.dir/build.make CMakeFiles/quizCluster.dir/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.cpp.o
+.PHONY : Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.cpp.o
 
-src/processPointClouds.i: src/processPointClouds.cpp.i
+Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.i: Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.cpp.i
 
-.PHONY : src/processPointClouds.i
+.PHONY : Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.i
 
 # target to preprocess a source file
-src/processPointClouds.cpp.i:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/processPointClouds.cpp.i
-.PHONY : src/processPointClouds.cpp.i
+Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.cpp.i:
+	$(MAKE) -f CMakeFiles/quizCluster.dir/build.make CMakeFiles/quizCluster.dir/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.cpp.i
+.PHONY : Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.cpp.i
 
-src/processPointClouds.s: src/processPointClouds.cpp.s
+Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.s: Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.cpp.s
 
-.PHONY : src/processPointClouds.s
+.PHONY : Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.s
 
 # target to generate assembly for a file
-src/processPointClouds.cpp.s:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/processPointClouds.cpp.s
-.PHONY : src/processPointClouds.cpp.s
+Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.cpp.s:
+	$(MAKE) -f CMakeFiles/quizCluster.dir/build.make CMakeFiles/quizCluster.dir/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.cpp.s
+.PHONY : Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.cpp.s
 
-src/render/render.o: src/render/render.cpp.o
+cluster.o: cluster.cpp.o
 
-.PHONY : src/render/render.o
+.PHONY : cluster.o
 
 # target to build an object file
-src/render/render.cpp.o:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/render/render.cpp.o
-.PHONY : src/render/render.cpp.o
+cluster.cpp.o:
+	$(MAKE) -f CMakeFiles/quizCluster.dir/build.make CMakeFiles/quizCluster.dir/cluster.cpp.o
+.PHONY : cluster.cpp.o
 
-src/render/render.i: src/render/render.cpp.i
+cluster.i: cluster.cpp.i
 
-.PHONY : src/render/render.i
+.PHONY : cluster.i
 
 # target to preprocess a source file
-src/render/render.cpp.i:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/render/render.cpp.i
-.PHONY : src/render/render.cpp.i
+cluster.cpp.i:
+	$(MAKE) -f CMakeFiles/quizCluster.dir/build.make CMakeFiles/quizCluster.dir/cluster.cpp.i
+.PHONY : cluster.cpp.i
 
-src/render/render.s: src/render/render.cpp.s
+cluster.s: cluster.cpp.s
 
-.PHONY : src/render/render.s
+.PHONY : cluster.s
 
 # target to generate assembly for a file
-src/render/render.cpp.s:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/render/render.cpp.s
-.PHONY : src/render/render.cpp.s
+cluster.cpp.s:
+	$(MAKE) -f CMakeFiles/quizCluster.dir/build.make CMakeFiles/quizCluster.dir/cluster.cpp.s
+.PHONY : cluster.cpp.s
 
 # Help Target
 help:
@@ -229,16 +202,13 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... environment"
-	@echo "... src/environment.o"
-	@echo "... src/environment.i"
-	@echo "... src/environment.s"
-	@echo "... src/processPointClouds.o"
-	@echo "... src/processPointClouds.i"
-	@echo "... src/processPointClouds.s"
-	@echo "... src/render/render.o"
-	@echo "... src/render/render.i"
-	@echo "... src/render/render.s"
+	@echo "... quizCluster"
+	@echo "... Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.o"
+	@echo "... Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.i"
+	@echo "... Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/render/render.s"
+	@echo "... cluster.o"
+	@echo "... cluster.i"
+	@echo "... cluster.s"
 .PHONY : help
 
 

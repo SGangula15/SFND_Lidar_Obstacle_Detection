@@ -61,16 +61,16 @@ RM = /usr/local/Cellar/cmake/3.17.0_1/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection
+CMAKE_SOURCE_DIR = /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/quiz/cluster
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/build
+CMAKE_BINARY_DIR = /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/environment.dir/all
+all: CMakeFiles/quizCluster.dir/all
 
 .PHONY : all
 
@@ -80,36 +80,36 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/environment.dir/clean
+clean: CMakeFiles/quizCluster.dir/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/environment.dir
+# Target rules for target CMakeFiles/quizCluster.dir
 
 # All Build rule for target.
-CMakeFiles/environment.dir/all:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/depend
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/build/CMakeFiles --progress-num=1,2,3,4 "Built target environment"
-.PHONY : CMakeFiles/environment.dir/all
+CMakeFiles/quizCluster.dir/all:
+	$(MAKE) -f CMakeFiles/quizCluster.dir/build.make CMakeFiles/quizCluster.dir/depend
+	$(MAKE) -f CMakeFiles/quizCluster.dir/build.make CMakeFiles/quizCluster.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/build/CMakeFiles --progress-num=1,2,3 "Built target quizCluster"
+.PHONY : CMakeFiles/quizCluster.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/environment.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/build/CMakeFiles 4
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/environment.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/build/CMakeFiles 0
-.PHONY : CMakeFiles/environment.dir/rule
+CMakeFiles/quizCluster.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/build/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/quizCluster.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/build/CMakeFiles 0
+.PHONY : CMakeFiles/quizCluster.dir/rule
 
 # Convenience name for target.
-environment: CMakeFiles/environment.dir/rule
+quizCluster: CMakeFiles/quizCluster.dir/rule
 
-.PHONY : environment
+.PHONY : quizCluster
 
 # clean rule for target.
-CMakeFiles/environment.dir/clean:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/clean
-.PHONY : CMakeFiles/environment.dir/clean
+CMakeFiles/quizCluster.dir/clean:
+	$(MAKE) -f CMakeFiles/quizCluster.dir/build.make CMakeFiles/quizCluster.dir/clean
+.PHONY : CMakeFiles/quizCluster.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
