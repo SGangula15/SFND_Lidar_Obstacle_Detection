@@ -4,3 +4,4 @@ build/*
 .vscode
 .idea
 SFND_01.code-workspace
+*.code-workspace
