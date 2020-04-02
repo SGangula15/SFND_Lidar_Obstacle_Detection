@@ -145,14 +145,14 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
   //pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloud = pointProcessorI->loadPcd("../src/sensors/data/pcd/data_1/0000000000.pcd");
   //renderPointCloud(viewer,inputCloud,"inputCloud");
   // Experiment with the min and max Point x,y,z values and find what works best
-  Eigen::Vector4f minPoint (-30, -5.6, -4, 1);
-  Eigen::Vector4f maxPoint (30, 7.2, 6, 1);
+  Eigen::Vector4f minPoint (-30, -5.6, -5, 1);
+  Eigen::Vector4f maxPoint (30, 6.5, 10, 1);
   float filterResolution (0.12); //filter resolution is in meters
   pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = pointProcessorI->FilterCloud(inputCloud, filterResolution , minPoint, maxPoint); 
   //renderPointCloud(viewer,filterCloud,"filterCloud");
   
   // Segment the filtered cloud using RANSAC Plane
-  std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentFilteredCloud = pointProcessorI->RansacPlane(filterCloud, 50, 0.3);
+  std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentFilteredCloud = pointProcessorI->RansacPlane(filterCloud, 80, 0.3);
   renderPointCloud(viewer,segmentFilteredCloud.first,"obstCloud",Color(1,0,0));
   renderPointCloud(viewer,segmentFilteredCloud.second,"planeCloud",Color(0,1,0));
 
@@ -161,7 +161,7 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
     //Using pcl clustering library
     //std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentFilteredCloud.first, 0.6, 420, 4800);
     //Clustering function developed in Quiz 
-    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->EuclideanClustering(segmentFilteredCloud.first, 0.6, 120, 4200);
+    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->EuclideanClustering(segmentFilteredCloud.first, 0.6, 10, 4000);
     int clusterId = 0;
     std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};
 
@@ -228,7 +228,6 @@ int main (int argc, char** argv)
     std::vector<boost::filesystem::path> stream = pointProcessorI->streamPcd("../src/sensors/data/pcd/data_1");
     auto streamIterator = stream.begin();
     pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloudI;
-    cout<<"I am here"<<endl;
     while (!viewer->wasStopped ())
     {
         // Clear viewer
