@@ -73,8 +73,8 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
         renderPointCloud(viewer,cluster,"obstCloud"+std::to_string(clusterId),colors[clusterId]);
 
         //render box
-        Box box = pointProcessor.BoundingBox(cluster);
-        renderBox(viewer, box, clusterId, colors[clusterId], 1);
+        //Box box = pointProcessor.BoundingBox(cluster);
+        //renderBox(viewer, box, clusterId, colors[clusterId], 1);
 
         ++clusterId;
     }
@@ -91,8 +91,8 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer)
   pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloud = pointProcessorI->loadPcd("../src/sensors/data/pcd/data_1/0000000000.pcd");
   //renderPointCloud(viewer,inputCloud,"inputCloud");
   // Experiment with the min and max Point x,y,z values and find what works best
-  Eigen::Vector4f minPoint (-30, -7.5, -3, 1);
-  Eigen::Vector4f maxPoint (30, 7.5, 10, 1);
+  Eigen::Vector4f minPoint (-30, -6.6, -3, 1);
+  Eigen::Vector4f maxPoint (30, 6.6, 10, 1);
   pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = pointProcessorI->FilterCloud(inputCloud, 0.1 , minPoint, maxPoint); //note: second parameter - filter resolution is in meters
   //renderPointCloud(viewer,filterCloud,"filterCloud");
   
@@ -101,7 +101,24 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer)
   renderPointCloud(viewer,segmentFilteredCloud.first,"obstCloud",Color(1,0,0));
   renderPointCloud(viewer,segmentFilteredCloud.second,"planeCloud",Color(0,1,0));
 
-  //Apply Euclidean Clustering on segmented point cloud 
+  //Apply Euclidean Clustering on segmented point cloud
+  //Clustering
+    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentFilteredCloud.first, 0.6, 580, 5000);
+    int clusterId = 0;
+    std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};
+
+    for(pcl::PointCloud<pcl::PointXYZI>::Ptr cluster : cloudClusters)
+    {
+        std::cout << "cluster size ";
+        pointProcessorI->numPoints(cluster);
+        renderPointCloud(viewer,cluster,"obstCloud"+std::to_string(clusterId),colors[clusterId]);
+
+        //render box
+        //Box box = pointProcessorI->BoundingBox(cluster);
+        //renderBox(viewer, box, clusterId, colors[clusterId], 1);
+
+        ++clusterId;
+    } 
 }
 
 //setAngle: SWITCH CAMERA ANGLE {XY, TopDown, Side, FPS}

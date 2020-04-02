@@ -94,7 +94,11 @@
 			"nonlinearoptimization": "cpp",
 			"polynomials": "cpp",
 			"future": "cpp",
-			"*.txx": "cpp"
+			"*.txx": "cpp",
+			"coroutine": "cpp",
+			"shared_mutex": "cpp",
+			"valarray": "cpp",
+			"hash_map": "cpp"
 		}
 	}
 }
