@@ -81,8 +81,8 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
     
 }
 
+
 //process single pcd 
-/*
 void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer)
 {
   // ----------------------------------------------------
@@ -106,7 +106,9 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer)
 
   //Apply Euclidean Clustering on segmented point cloud
   //Clustering
-    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentFilteredCloud.first, 0.6, 420, 4800);
+    //std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentFilteredCloud.first, 0.6, 420, 4800);
+    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->EuclideanClustering(segmentFilteredCloud.first, 0.6, 420, 4800);
+
     int clusterId = 0;
     std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};
 
@@ -122,9 +124,9 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer)
 
         ++clusterId;
     } 
-}*/
+}
 
-
+/*
 //Process stream of pcd data
 void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointClouds<pcl::PointXYZI>* pointProcessorI, const pcl::PointCloud<pcl::PointXYZI>::Ptr& inputCloud)
 {
@@ -149,7 +151,8 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
 
   //Apply Euclidean Clustering on segmented point cloud
   //Clustering
-    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentFilteredCloud.first, 0.6, 420, 4800);
+    //std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentFilteredCloud.first, 0.6, 420, 4800);
+    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->EuclideanClustering(segmentFilteredCloud.first, 0.6, 420, 4800);
     int clusterId = 0;
     std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};
 
@@ -165,7 +168,7 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
 
         ++clusterId;
     } 
-}
+}*/
 
 //setAngle: SWITCH CAMERA ANGLE {XY, TopDown, Side, FPS}
 void initCamera(CameraAngle setAngle, pcl::visualization::PCLVisualizer::Ptr& viewer)
@@ -199,7 +202,15 @@ int main (int argc, char** argv)
     CameraAngle setAngle = XY;
     initCamera(setAngle, viewer);
     //simpleHighway(viewer);
+    
+    cityBlock(viewer);
 
+    while(!viewer->wasStopped())
+    {
+        viewer->spinOnce();
+    }
+
+    /*
     //process stream of pcd data
     ProcessPointClouds<pcl::PointXYZI>* pointProcessorI = new ProcessPointClouds<pcl::PointXYZI>();
     std::vector<boost::filesystem::path> stream = pointProcessorI->streamPcd("../src/sensors/data/pcd/data_1");
@@ -223,6 +234,7 @@ int main (int argc, char** argv)
         streamIterator = stream.begin();
 
     viewer->spinOnce ();
-    }
+    }*/
+    
     
 }

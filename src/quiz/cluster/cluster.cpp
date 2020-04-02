@@ -1,11 +1,11 @@
 /* \author Aaron Brown */
 // Quiz on implementing simple RANSAC line fitting
-
-#include "../../render/render.h"
-#include "../../render/box.h"
-#include <chrono>
-#include <string>
-#include "kdtree.h"
+#include "cluster.h"
+// #include "../../render/render.h"
+// #include "../../render/box.h"
+// #include <chrono>
+// #include <string>
+// #include "kdtree.h"
 
 // Arguments:
 // window is the region to draw box around
@@ -120,6 +120,7 @@ std::vector<std::vector<int>> euclideanCluster(const std::vector<std::vector<flo
 	return clusters;
 }
 
+/*
 int main ()
 {
 
@@ -180,4 +181,4 @@ int main ()
   	  viewer->spinOnce ();
   	}
   	
-}
+}*/

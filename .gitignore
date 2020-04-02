@@ -1,6 +1,7 @@
 .DS_Store
 */build/*
 build/*
+src/quiz/**/build/
 .vscode
 .idea
 SFND_01.code-workspace
