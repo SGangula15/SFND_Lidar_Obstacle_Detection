@@ -28,11 +28,48 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
 
     // TODO:: Fill in the function to do voxel grid point reduction and region based filtering
 
+    // 1:Do a resolution reduction using Voxel Grid filter 
+    typename pcl::PointCloud<PointT>::Ptr cloudLowResolution (new pcl::PointCloud<PointT>()); 
+    pcl::VoxelGrid<PointT> reduceResolution;
+    reduceResolution.setInputCloud(cloud);
+    reduceResolution.setLeafSize(filterRes, filterRes, filterRes);  //filter resolution is set in meters
+    reduceResolution.filter(*cloudLowResolution);
+
+    // 2: Perform cropBox filter for region based croping
+    typename pcl::PointCloud<PointT>::Ptr cloudRegion (new pcl::PointCloud<PointT>()); 
+    pcl::CropBox<PointT> cropRegion(true);
+    cropRegion.setMin(minPoint);
+    cropRegion.setMax(maxPoint);
+    cropRegion.setInputCloud(cloudLowResolution);
+    cropRegion.filter(*cloudRegion);
+
+    //3:optional: Remove the roof of the car using cropBox and get the indices
+    //3a: get the roof of the car indices from cloudRegion
+    std::vector<int> indices;
+    pcl::CropBox<PointT> roof(true);
+    roof.setMin(Eigen::Vector4f (-1.5, -1.7, -1, 1));
+    roof.setMax(Eigen::Vector4f (2.6, 1.7, -4, 1));
+    roof.setInputCloud(cloudRegion);
+    roof.filter(indices);
+
+    //3b: create a point cloud with rood indices so you can use extract function on it
+    pcl::PointIndices::Ptr inliers (new pcl::PointIndices());
+    for(int point:indices){
+        inliers->indices.push_back(point);
+    }
+
+    //3c: Now extract roof from the cloudRegion
+    pcl::ExtractIndices<PointT> extract;
+    extract.setInputCloud(cloudRegion);
+    extract.setIndices(inliers);
+    extract.setNegative(true);
+    extract.filter(*cloudRegion);
+
     auto endTime = std::chrono::steady_clock::now();
     auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
     std::cout << "filtering took " << elapsedTime.count() << " milliseconds" << std::endl;
 
-    return cloud;
+    return cloudRegion;
 
 }
 

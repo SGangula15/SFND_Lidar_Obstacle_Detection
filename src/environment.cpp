@@ -71,11 +71,38 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
         std::cout << "cluster size ";
         pointProcessor.numPoints(cluster);
         renderPointCloud(viewer,cluster,"obstCloud"+std::to_string(clusterId),colors[clusterId]);
+
+        //render box
+        Box box = pointProcessor.BoundingBox(cluster);
+        renderBox(viewer, box, clusterId, colors[clusterId], 1);
+
         ++clusterId;
     }
     
 }
 
+void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer)
+{
+  // ----------------------------------------------------
+  // -----Open 3D viewer and display City Block     -----
+  // ----------------------------------------------------
+
+  ProcessPointClouds<pcl::PointXYZI>* pointProcessorI = new ProcessPointClouds<pcl::PointXYZI>();
+  pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloud = pointProcessorI->loadPcd("../src/sensors/data/pcd/data_1/0000000000.pcd");
+  //renderPointCloud(viewer,inputCloud,"inputCloud");
+  // Experiment with the min and max Point x,y,z values and find what works best
+  Eigen::Vector4f minPoint (-30, -7.5, -3, 1);
+  Eigen::Vector4f maxPoint (30, 7.5, 10, 1);
+  pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = pointProcessorI->FilterCloud(inputCloud, 0.1 , minPoint, maxPoint); //note: second parameter - filter resolution is in meters
+  //renderPointCloud(viewer,filterCloud,"filterCloud");
+  
+  // Segment the filtered cloud using RANSAC Plane
+  std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentFilteredCloud = pointProcessorI->RansacPlane(filterCloud, 100, 0.3);
+  renderPointCloud(viewer,segmentFilteredCloud.first,"obstCloud",Color(1,0,0));
+  renderPointCloud(viewer,segmentFilteredCloud.second,"planeCloud",Color(0,1,0));
+
+  //Apply Euclidean Clustering on segmented point cloud 
+}
 
 //setAngle: SWITCH CAMERA ANGLE {XY, TopDown, Side, FPS}
 void initCamera(CameraAngle setAngle, pcl::visualization::PCLVisualizer::Ptr& viewer)
@@ -108,7 +135,8 @@ int main (int argc, char** argv)
     pcl::visualization::PCLVisualizer::Ptr viewer (new pcl::visualization::PCLVisualizer ("3D Viewer"));
     CameraAngle setAngle = XY;
     initCamera(setAngle, viewer);
-    simpleHighway(viewer);
+    //simpleHighway(viewer);
+    cityBlock(viewer);
 
     while (!viewer->wasStopped ())
     {
