@@ -333,7 +333,8 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::E
     {
         PointT point = cloud->points[i];
         
-        //create a point vector to extract x,y,z 
+        //create a point vector 
+        //extract x,y,z from input point and store in point vector
         std::vector<float> pointVector;
         pointVector.push_back(point.x);
         pointVector.push_back(point.y);
@@ -360,6 +361,7 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::E
         clusterCloud->width = clusterCloud->points.size();
         clusterCloud->height = 1;
         clusterCloud->is_dense = true;
+        //check for boundaries of clusters 
         if ((clusterCloud->width >= minSize) and (clusterCloud->width <= maxSize))
             clusters.push_back(clusterCloud);
     }
