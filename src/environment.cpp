@@ -5,13 +5,15 @@
 #include "sensors/lidar.h"
 #include "render/render.h"
 #include "quiz/cluster/cluster.h"
+// to avoid linker error for euclideanCluster add .cpp
 #include "quiz/cluster/cluster.cpp"
 #include "processPointClouds.h"
 // using templates for processPointClouds so also include .cpp to help linker
 #include "processPointClouds.cpp"
 
-#define SINGLE_PCD
-//#define STREAM_PCD
+//Compiler switched for single and stream pcd processing
+//#define SINGLE_PCD
+#define STREAM_PCD
 
 std::vector<Car> initHighway(bool renderScene, pcl::visualization::PCLVisualizer::Ptr& viewer)
 {
@@ -82,8 +84,7 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
         //renderBox(viewer, box, clusterId, colors[clusterId], 1);
 
         ++clusterId;
-    }
-    
+    }    
 }
 
 #ifdef SINGLE_PCD
@@ -157,7 +158,9 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
 
   //Apply Euclidean Clustering on segmented point cloud
   //Clustering
+    //Using pcl clustering library
     //std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentFilteredCloud.first, 0.6, 420, 4800);
+    //Clustering function developed in Quiz 
     std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->EuclideanClustering(segmentFilteredCloud.first, 0.6, 420, 4800);
     int clusterId = 0;
     std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};
@@ -210,8 +213,8 @@ int main (int argc, char** argv)
     initCamera(setAngle, viewer);
     //simpleHighway(viewer);
     #ifdef SINGLE_PCD
+    cout<<" Visualizing Single PCD data" << endl;
     cityBlock(viewer);
-
     while(!viewer->wasStopped())
     {
         viewer->spinOnce();
@@ -219,29 +222,28 @@ int main (int argc, char** argv)
     #endif //single pcd
 
     #ifdef STREAM_PCD
+    cout<<" Visualizing Stream of PCD data" << endl;
     //process stream of pcd data
     ProcessPointClouds<pcl::PointXYZI>* pointProcessorI = new ProcessPointClouds<pcl::PointXYZI>();
     std::vector<boost::filesystem::path> stream = pointProcessorI->streamPcd("../src/sensors/data/pcd/data_1");
     auto streamIterator = stream.begin();
     pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloudI;
-    cityBlock(viewer, pointProcessorI, inputCloudI);
-
+    cout<<"I am here"<<endl;
     while (!viewer->wasStopped ())
     {
+        // Clear viewer
+        viewer->removeAllPointClouds();
+        viewer->removeAllShapes();
 
-    // Clear viewer
-    viewer->removeAllPointClouds();
-    viewer->removeAllShapes();
+        // Load pcd and run obstacle detection process
+        inputCloudI = pointProcessorI->loadPcd((*streamIterator).string());
+        cityBlock(viewer, pointProcessorI, inputCloudI);
 
-    // Load pcd and run obstacle detection process
-    inputCloudI = pointProcessorI->loadPcd((*streamIterator).string());
-    cityBlock(viewer, pointProcessorI, inputCloudI);
+        streamIterator++;
+        if(streamIterator == stream.end())
+            streamIterator = stream.begin();
 
-    streamIterator++;
-    if(streamIterator == stream.end())
-        streamIterator = stream.begin();
-
-    viewer->spinOnce ();
+        viewer->spinOnce ();
     }
     #endif //Stream PCD
     

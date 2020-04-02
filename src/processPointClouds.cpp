@@ -307,22 +307,10 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::E
     // use in built clustering method for reference
 
     // Pseudo Code
-    // Proximity(point,cluster):
-    //     mark point as processed
-    //     add point to cluster
-    //     nearby points = tree(point)
-    //     Iterate through each nearby point
-    //         If point has not been processed
-    //             Proximity(cluster)
-
-    // EuclideanCluster():
-    //     list of clusters 
-    //     Iterate through each point
-    //         If point has not been processed
-    //             Create cluster
-    //             Proximity(point, cluster)
-    //             cluster add clusters
-    //     return clusters
+    // Create kdtree
+    // Add point to kdtree
+    // search for clusters with distance tolerance in kdtree
+    // save cluster if it is within boundaries (min ,max)
 
     //Create the KdTree object for the search method of the extraction
     KdTree* tree = new KdTree;
