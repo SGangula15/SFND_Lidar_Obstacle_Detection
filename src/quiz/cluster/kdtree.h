@@ -3,8 +3,6 @@
 #ifndef KDTREE_H
 #define KDTREE_H
 
-#include "../../render/render.h"
-
 
 // Structure to represent node of kd tree
 struct Node

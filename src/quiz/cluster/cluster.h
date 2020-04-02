@@ -1,13 +1,14 @@
 /* \author Aaron Brown */
 // funciton prototypes for clustering quiz
-#ifndef CLUSTER_H
-#define CLUSTER_H
 
-#include "../../render/render.h"
-#include "../../render/box.h"
+
 #include <chrono>
 #include <string>
-#include "kdtree.h"
+#include "../../render/render.h"
+#include "../../render/box.h"
+extern "C"{
+    #include "kdtree.h"
+}
 
 // Arguments:
 // window is the region to draw box around
@@ -22,5 +23,3 @@ void render2DTree(Node* node, pcl::visualization::PCLVisualizer::Ptr& viewer, Bo
 void ClusterHelper(const std::vector<std::vector<float>>& points, KdTree* tree, float distanceTol, int curr_index, std::vector<bool>& processed, std::vector<int>& cluster);
 
 std::vector<std::vector<int>> euclideanCluster(const std::vector<std::vector<float>>& points, KdTree* tree, float distanceTol);
-
-#endif
