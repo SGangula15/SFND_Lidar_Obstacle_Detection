@@ -1,3 +1,0 @@
-/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/build/CMakeFiles/rebuild_cache.dir
-/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/build/CMakeFiles/edit_cache.dir
-/Users/srikanthgangula/documents/GitHub/SFND_Lidar_Obstacle_Detection/src/quiz/cluster/build/CMakeFiles/quizCluster.dir

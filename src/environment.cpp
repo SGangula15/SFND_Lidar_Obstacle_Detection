@@ -81,6 +81,8 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
     
 }
 
+//process single pcd 
+/*
 void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer)
 {
   // ----------------------------------------------------
@@ -89,6 +91,49 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer)
 
   ProcessPointClouds<pcl::PointXYZI>* pointProcessorI = new ProcessPointClouds<pcl::PointXYZI>();
   pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloud = pointProcessorI->loadPcd("../src/sensors/data/pcd/data_1/0000000000.pcd");
+  //renderPointCloud(viewer,inputCloud,"inputCloud");
+  // Experiment with the min and max Point x,y,z values and find what works best
+  Eigen::Vector4f minPoint (-30, -5.6, -6, 1);
+  Eigen::Vector4f maxPoint (30, 7.2, 10, 1);
+  float filterResolution (0.075); //filter resolution is in meters
+  pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = pointProcessorI->FilterCloud(inputCloud, filterResolution , minPoint, maxPoint); 
+  //renderPointCloud(viewer,filterCloud,"filterCloud");
+  
+  // Segment the filtered cloud using RANSAC Plane
+  std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentFilteredCloud = pointProcessorI->RansacPlane(filterCloud, 100, 0.3);
+  renderPointCloud(viewer,segmentFilteredCloud.first,"obstCloud",Color(1,0,0));
+  renderPointCloud(viewer,segmentFilteredCloud.second,"planeCloud",Color(0,1,0));
+
+  //Apply Euclidean Clustering on segmented point cloud
+  //Clustering
+    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentFilteredCloud.first, 0.6, 420, 4800);
+    int clusterId = 0;
+    std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};
+
+    for(pcl::PointCloud<pcl::PointXYZI>::Ptr cluster : cloudClusters)
+    {
+        std::cout << "cluster size ";
+        pointProcessorI->numPoints(cluster);
+        renderPointCloud(viewer,cluster,"obstCloud"+std::to_string(clusterId),colors[clusterId]);
+
+        //render box
+        Box box = pointProcessorI->BoundingBox(cluster);
+        renderBox(viewer, box, clusterId, colors[clusterId], 1);
+
+        ++clusterId;
+    } 
+}*/
+
+
+//Process stream of pcd data
+void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointClouds<pcl::PointXYZI>* pointProcessorI, const pcl::PointCloud<pcl::PointXYZI>::Ptr& inputCloud)
+{
+  // ----------------------------------------------------
+  // -----Open 3D viewer and display City Block     -----
+  // ----------------------------------------------------
+
+  //ProcessPointClouds<pcl::PointXYZI>* pointProcessorI = new ProcessPointClouds<pcl::PointXYZI>();
+  //pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloud = pointProcessorI->loadPcd("../src/sensors/data/pcd/data_1/0000000000.pcd");
   //renderPointCloud(viewer,inputCloud,"inputCloud");
   // Experiment with the min and max Point x,y,z values and find what works best
   Eigen::Vector4f minPoint (-30, -5.6, -6, 1);
@@ -154,10 +199,30 @@ int main (int argc, char** argv)
     CameraAngle setAngle = XY;
     initCamera(setAngle, viewer);
     //simpleHighway(viewer);
-    cityBlock(viewer);
+
+    //process stream of pcd data
+    ProcessPointClouds<pcl::PointXYZI>* pointProcessorI = new ProcessPointClouds<pcl::PointXYZI>();
+    std::vector<boost::filesystem::path> stream = pointProcessorI->streamPcd("../src/sensors/data/pcd/data_1");
+    auto streamIterator = stream.begin();
+    pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloudI;
+    cityBlock(viewer, pointProcessorI, inputCloudI);
 
     while (!viewer->wasStopped ())
     {
-        viewer->spinOnce ();
+
+    // Clear viewer
+    viewer->removeAllPointClouds();
+    viewer->removeAllShapes();
+
+    // Load pcd and run obstacle detection process
+    inputCloudI = pointProcessorI->loadPcd((*streamIterator).string());
+    cityBlock(viewer, pointProcessorI, inputCloudI);
+
+    streamIterator++;
+    if(streamIterator == stream.end())
+        streamIterator = stream.begin();
+
+    viewer->spinOnce ();
     }
+    
 }

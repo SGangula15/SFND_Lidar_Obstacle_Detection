@@ -1,4 +1,8 @@
-*.DS_Store
-**/build
-**/.vscode
-**/.idea
+.DS_Store
+*/build/*
+build/*
+*/.vscode/*
+.vscode/*
+*/.idea/*
+.idea/*
+SFND_01.code-workspace
