@@ -4,14 +4,14 @@
 
 #include "sensors/lidar.h"
 #include "render/render.h"
-#include "quiz/cluster/cluster.h"
+//#include "quiz/cluster/cluster.h" //seems redundant as cpp is included
 // to avoid linker error for euclideanCluster add .cpp
-#include "quiz/cluster/cluster.cpp"
+#include "quiz/cluster/cluster.cpp"    
 #include "processPointClouds.h"
 // using templates for processPointClouds so also include .cpp to help linker
 #include "processPointClouds.cpp"
 
-//Compiler switched for single and stream pcd processing
+//Compiler switch for single and stream pcd processing
 //#define SINGLE_PCD
 #define STREAM_PCD
 
@@ -147,12 +147,12 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
   // Experiment with the min and max Point x,y,z values and find what works best
   Eigen::Vector4f minPoint (-30, -5.6, -5, 1);
   Eigen::Vector4f maxPoint (30, 6.5, 10, 1);
-  float filterResolution (0.12); //filter resolution is in meters
+  float filterResolution (0.15); //filter resolution is in meters
   pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = pointProcessorI->FilterCloud(inputCloud, filterResolution , minPoint, maxPoint); 
   //renderPointCloud(viewer,filterCloud,"filterCloud");
   
   // Segment the filtered cloud using RANSAC Plane
-  std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentFilteredCloud = pointProcessorI->RansacPlane(filterCloud, 80, 0.3);
+  std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentFilteredCloud = pointProcessorI->RansacPlane(filterCloud, 100, 0.2);
   renderPointCloud(viewer,segmentFilteredCloud.first,"obstCloud",Color(1,0,0));
   renderPointCloud(viewer,segmentFilteredCloud.second,"planeCloud",Color(0,1,0));
 
@@ -161,7 +161,7 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
     //Using pcl clustering library
     //std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentFilteredCloud.first, 0.6, 420, 4800);
     //Clustering function developed in Quiz 
-    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->EuclideanClustering(segmentFilteredCloud.first, 0.6, 10, 4000);
+    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->EuclideanClustering(segmentFilteredCloud.first, 0.4, 10, 3850);
     int clusterId = 0;
     std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};
 
