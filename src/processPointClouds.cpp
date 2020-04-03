@@ -162,8 +162,7 @@ ProcessPointClouds<PointT>::RansacPlane(typename pcl::PointCloud<PointT>::Ptr cl
             inliers.insert(rand() % cloud->points.size()); // randomly selecting between 0 and size of cloud
         }
 
-        std::cout<<"inliers size is: " <<inliers.size() <<endl; 
-
+        //std::cout<<"inliers size is: " <<inliers.size() <<endl; 
 
         auto itr = inliers.begin();
 
