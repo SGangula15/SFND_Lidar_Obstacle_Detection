@@ -1,6 +1,7 @@
 // PCL lib Functions for processing point clouds 
 
 #include "processPointClouds.h"
+#include <time.h>
 
 //constructor:
 template<typename PointT>
@@ -137,7 +138,8 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
 ProcessPointClouds<PointT>::RansacPlane(typename pcl::PointCloud<PointT>::Ptr cloud, int maxIterations, float distanceTol)
 {
     std::unordered_set<int> inliersResult;
-	srand(time(NULL));
+    time_t timer;
+	srand(timer);
 	
 	// TODO: Fill in this function
 
@@ -146,26 +148,76 @@ ProcessPointClouds<PointT>::RansacPlane(typename pcl::PointCloud<PointT>::Ptr cl
 	// For max iterations 
     while(maxIterations--)
     {
-        // Randomly sample subset and fit line
+        // Randomly sample subset and select 3 point to create plane
         std::unordered_set<int> inliers;
-        for (int index = 0; index < 3; index++) // 3, because of 3D plane 
-        { 
-            inliers.insert(rand() % cloud->points.size()); // randomly selecting between 0 and size of cloud
+
+        //brief: Loop until inliers size is 3 
+        //details: in some exceutions during runtime inliers size is only set to 2 and this is causing segmentation fault
+        //reasoning: since segmentation fault occurs when we try to access null pointer
+        //if inlier size is only 2 and then when we try to copy third point cloud from inliers 
+        //i.e example x3= cloud->points[*itr].x, here itr isn't ponting to anything i.e NULL so the segmentation error 
+        while(inliers.size()!=3)
+        {
+            for (int index = 0; index < 3; index++) // 3, because of 3D plane 
+            {
+                //repeat until inliers has unique value
+                //while(inliers.count(index) == 1) 
+                    inliers.insert(rand() % cloud->points.size()); // randomly selecting between 0 and size of cloud
+            }
+        std::cout<<"inliers size is: " <<inliers.size() <<endl; 
         }
+        
+
+        std::copy(inliers.begin(),
+            inliers.end(),
+            std::ostream_iterator<int>(std::cout, " "));
 
         auto itr = inliers.begin();
-        const float x1 = cloud->points[*itr].x;
-        const float y1 = cloud->points[*itr].y;
-		const float z1 = cloud->points[*itr].z;
-        itr++;
-        const float x2 = cloud->points[*itr].x;
-        const float y2 = cloud->points[*itr].y;
-		const float z2 = cloud->points[*itr].z;
-		itr++;
-		const float x3 = cloud->points[*itr].x;
-		const float y3 = cloud->points[*itr].y;
-		const float z3 = cloud->points[*itr].z;
 
+        std::cout<<"\nitr1 is: "<< *itr<<endl;
+       
+        const float x1 = cloud->points[*itr].x;
+        std::cout<<"no null ptr x1" <<endl; 
+        const float y1 = cloud->points[*itr].y;
+        std::cout<<"no null ptr y1" <<endl; 
+		const float z1 = cloud->points[*itr].z;
+        std::cout<<"no null ptr z1" <<endl; 
+        std::cout<<"inliers size at end iteration 1" <<inliers.size() <<endl; 
+
+        //itr++;
+        std::cout<< "outside2"<< endl;
+        if(inliers.end() == ++itr){
+            std::cout<< "inside2"<< endl;
+            inliers.insert(rand() % cloud->points.size());
+        }
+        std::cout<<"itr2 is: "<< *itr<<endl;
+
+        //if (inliers.size() == 2) { inliers.insert(rand() % cloud->points.size()); }
+        const float x2 = cloud->points[*itr].x;
+        std::cout<<"no null ptr x2" <<endl; 
+        const float y2 = cloud->points[*itr].y;
+        std::cout<<"no null ptr y2" <<endl; 
+		const float z2 = cloud->points[*itr].z;
+        std::cout<<"no null ptr z2" <<endl; 
+        std::cout<<"inliers size at end iteration 2" <<inliers.size() <<endl; 
+
+		//itr++;
+        std::cout<< "outside3"<< endl;
+        if(inliers.end() == ++itr){
+            std::cout<< "inside3"<< endl;
+            std::cout<< "cloud size is : " <<cloud->points.size()<<endl;
+            inliers.insert(rand() % cloud->points.size());
+        }
+
+        std::cout<<"itr3 is: "<< *itr<<endl;
+		const float x3 = cloud->points[*itr].x;
+        std::cout<<"no null ptr x3" <<endl;  
+		const float y3 = cloud->points[*itr].y;
+        std::cout<<"no null ptr y3" <<endl;  
+		const float z3 = cloud->points[*itr].z;
+        std::cout<<"no null ptr z3" <<endl;                
+        std::cout<<"inliers size at end iteration 3" <<inliers.size() <<endl; 
+   
          // Equation of a line through two point in 3D is
          //  Ax+By+Cz+D = 0 (3D Line equation)
          //  Given two points: point1 (x1, y1, z1), point2 (x2, y2, z2), and  point3 (x3, y3, z3)
