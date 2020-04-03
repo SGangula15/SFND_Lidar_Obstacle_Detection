@@ -99,21 +99,21 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer)
   pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloud = pointProcessorI->loadPcd("../src/sensors/data/pcd/data_1/0000000000.pcd");
   //renderPointCloud(viewer,inputCloud,"inputCloud");
   // Experiment with the min and max Point x,y,z values and find what works best
-  Eigen::Vector4f minPoint (-30, -5.6, -6, 1);
-  Eigen::Vector4f maxPoint (30, 7.2, 10, 1);
-  float filterResolution (0.075); //filter resolution is in meters
+  Eigen::Vector4f minPoint (-30, -5.6, -3, 1);
+  Eigen::Vector4f maxPoint (30, 6.8, 10, 1);
+  float filterResolution (0.15); //filter resolution is in meters
   pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = pointProcessorI->FilterCloud(inputCloud, filterResolution , minPoint, maxPoint); 
   //renderPointCloud(viewer,filterCloud,"filterCloud");
   
   // Segment the filtered cloud using RANSAC Plane
   std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentFilteredCloud = pointProcessorI->RansacPlane(filterCloud, 100, 0.3);
-  renderPointCloud(viewer,segmentFilteredCloud.first,"obstCloud",Color(1,0,0));
+  //renderPointCloud(viewer,segmentFilteredCloud.first,"obstCloud",Color(1,0,0));
   renderPointCloud(viewer,segmentFilteredCloud.second,"planeCloud",Color(0,1,0));
 
   //Apply Euclidean Clustering on segmented point cloud
   //Clustering
     //std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentFilteredCloud.first, 0.6, 420, 4800);
-    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->EuclideanClustering(segmentFilteredCloud.first, 0.6, 420, 4800);
+    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->EuclideanClustering(segmentFilteredCloud.first, 0.7, 5, 4800);
 
     int clusterId = 0;
     std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};
@@ -145,24 +145,26 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
   //pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloud = pointProcessorI->loadPcd("../src/sensors/data/pcd/data_1/0000000000.pcd");
   //renderPointCloud(viewer,inputCloud,"inputCloud");
   // Experiment with the min and max Point x,y,z values and find what works best
-  Eigen::Vector4f minPoint (-30, -5, -3, 1);
-  Eigen::Vector4f maxPoint (30, 6.2, 10, 1);
-  float filterResolution (0.2); //filter resolution is in meters
+  Eigen::Vector4f minPoint (-30, -5, -4, 1);
+  Eigen::Vector4f maxPoint (30, 6.6, 8, 1);
+  float filterResolution (0.24); //filter resolution is in meters
   pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = pointProcessorI->FilterCloud(inputCloud, filterResolution , minPoint, maxPoint); 
   //renderPointCloud(viewer,filterCloud,"filterCloud");
   
   // Segment the filtered cloud using RANSAC Plane
   //std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentFilteredCloud = pointProcessorI->SegmentPlane(filterCloud, 100, 0.3);
   std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentFilteredCloud = pointProcessorI->RansacPlane(filterCloud, 100, 0.3);
-  renderPointCloud(viewer,segmentFilteredCloud.first,"obstCloud",Color(1,0,0));
+  //renderPointCloud(viewer,segmentFilteredCloud.first,"obstCloud",Color(1,0,0));
   renderPointCloud(viewer,segmentFilteredCloud.second,"planeCloud",Color(0,1,0));
 
-  //Apply Euclidean Clustering on segmented point cloud
+  //breif: Apply Euclidean Clustering on segmented point cloud
+  //details: [in] 2nd parameter ClusterTolerance() - If you take a very small value, it can happen that an actual object can be seen as multiple clusters. 
+  //On the other hand, if you set the value too high, it could happen, that multiple objects are seen as one cluster.
   //Clustering
     //Using pcl clustering library
     //std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentFilteredCloud.first, 0.6, 10, 5200);
     //Clustering function developed in Quiz 
-    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->EuclideanClustering(segmentFilteredCloud.first, 0.45, 10, 5200);
+    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->EuclideanClustering(segmentFilteredCloud.first, 0.36, 12, 2000);
     int clusterId = 0;
     std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};
 
@@ -174,7 +176,7 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
 
         //render box
         Box box = pointProcessorI->BoundingBox(cluster);
-        renderBox(viewer, box, clusterId, colors[clusterId], 1);
+        renderBox(viewer, box, clusterId, Color(1,0,0), 1); 
 
         ++clusterId;
     } 
