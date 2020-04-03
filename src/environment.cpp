@@ -145,8 +145,8 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
   //pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloud = pointProcessorI->loadPcd("../src/sensors/data/pcd/data_1/0000000000.pcd");
   //renderPointCloud(viewer,inputCloud,"inputCloud");
   // Experiment with the min and max Point x,y,z values and find what works best
-  Eigen::Vector4f minPoint (-30, -6.6, -3, 1);
-  Eigen::Vector4f maxPoint (30, 6.6, 10, 1);
+  Eigen::Vector4f minPoint (-30, -5, -3, 1);
+  Eigen::Vector4f maxPoint (30, 6.2, 10, 1);
   float filterResolution (0.2); //filter resolution is in meters
   pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = pointProcessorI->FilterCloud(inputCloud, filterResolution , minPoint, maxPoint); 
   //renderPointCloud(viewer,filterCloud,"filterCloud");
@@ -160,9 +160,9 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
   //Apply Euclidean Clustering on segmented point cloud
   //Clustering
     //Using pcl clustering library
-    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentFilteredCloud.first, 0.6, 10, 5200);
+    //std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentFilteredCloud.first, 0.6, 10, 5200);
     //Clustering function developed in Quiz 
-    //std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->EuclideanClustering(segmentFilteredCloud.first, 0.5, 25, 4850);
+    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->EuclideanClustering(segmentFilteredCloud.first, 0.45, 10, 5200);
     int clusterId = 0;
     std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};
 
